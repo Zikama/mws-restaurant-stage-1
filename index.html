@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <!--<link rel="stylesheet" src="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>-->
+    <link href="assets/css/reset.css" rel="stylesheet" />
+    <link href="assets/css/styles.css" rel="stylesheet" />
+    <title>
+        Restaurant Reviews - Home
+    </title>
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="Udacity, Jérémie Litzler" name="author" />
+    <meta content="Restaurant reviews webapp." name="description" />
+    <meta content="Udacity, tous droits réservés © 2018" name="copyright" />
+    <meta content="noindex,nofollow" name="robots" />
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+   integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+   crossorigin=""/> <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+   integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+   crossorigin=""></script>
+    <link href="assets/img/icons/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57" />
+    <link href="assets/img/icons/apple-icon-60x60.png" rel="apple-touch-icon" sizes="60x60" />
+    <link href="assets/img/icons/apple-icon-72x72.png" rel="apple-touch-icon" sizes="72x72" />
+    <link href="assets/img/icons/apple-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" />
+    <link href="assets/img/icons/apple-icon-114x114.png" rel="apple-touch-icon" sizes="114x114" />
+    <link href="assets/img/icons/apple-icon-120x120.png" rel="apple-touch-icon" sizes="120x120" />
+    <link href="assets/img/icons/apple-icon-144x144.png" rel="apple-touch-icon" sizes="144x144" />
+    <link href="assets/img/icons/apple-icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
+    <link href="assets/img/icons/apple-icon-180x180.png" rel="apple-touch-icon" sizes="180x180" />
+    <link href="assets/img/icons/android-icon-192x192.png" rel="icon" sizes="192x192" type="image/png" />
+    <link href="assets/img/icons/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+    <link href="assets/img/icons/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+    <link href="assets/img/icons/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+    <link href="./manifest.json" rel="manifest" />
+    <meta content="#ffffff" name="msapplication-TileColor" />
+    <meta content="img/icons/ms-icon-144x144.png" name="msapplication-TileImage" />
+    <meta content="#f1511f" name="theme-color" />
+</head>
+
+</html>
+
+<body>
+    <header class="shadow">
+        <div class="h_title">      
+         <h1>  Restaurant Reviews</h1>
+        </div>
+     <nav>
+        <div class="open-search-modal js-filters-modal">
+     <input type="text" name="searching" class="input" placeholder="search"><button class="brn-classic  open-search-modal js-filters-modal"title="Open the search" href="#">Search</button></div>
+</nav>
+    </header>
+    <main class="main " id="maincontent">
+<!---------====================================================================================================================The Begining=========================================================
+============================================================--->
+ <span class="layer"></span>
+      <div id="image_modal" class="main modal n-tras n-blac"
+onclick="document.getElementById('modl01').style.display='none'" 
+style="top:19.9%;left:3cm;width:70%;height:70%;z-index:44885;" >
+        
+  <div id='media-player' width="100%"> 
+      <img id="img01" class="modal-content">
+      <p id="caption"></p>
+  </div>  
+</div>
+ <!---------===============Image Displayer=====================================--->
+
+        
+        <section class="map-container" id="map-container">
+            <div class="map-offline-placeholder">
+                <h2 class="emphasis">Ooops Map did not load correctly</h2>
+                <p class="emphasis">Connect to a Wifi or Mobile network to view the map.</p>
+            </div>
+            <div aria-hidden="true" role="application" id="map">
+            </div>
+        </section>
+        <section class="restaurants-container ">
+            <!-- <div class="filter-options filter-blo" id="filters">
+                <input type="text" name="searching" class="input triger" placeholder="search"><button class="brn-classic  triger "title="Open the search" href="#">Search</button>
+            </div> -->
+            <ul id="restaurants-list">
+            </ul>
+            <p class="no-restaurant-msg">
+                No restaurant found for your search. Please press the search button
+            </p>
+        </section>
+<!-- ________________________________ Search Modal  ______________________________-->
+        <div class="c-modal js-filters-modal n-animate-fading n-animate-left " id="filters-modal" role="dialog">
+            <!-- _____ Modal header ________, And Closer -->
+            <div class="main_modal shadow" >
+            <!-- _____ Just________, A Closer -->
+            <div class="modal_header shadow" id="h_closer">
+               <button class="brn-classic margin-lg float-left js-close-modal" title="Go Back">Back</button>
+           </div>
+        <h2>Use the dropdowns below  to filter the restaurant list</h2> 
+        <label for="neighborhoods-select">
+            Select a neighborhood value:
+        </label>
+        <select id="neighborhoods-select" class="input in-shadow-hover shadow-hover" name="neighborhoods">
+            <option value="all">
+                All Neighborhoods
+            </option>
+        </select> 
+        <label for="cuisines-select">
+            Select a cuisine value:
+        </label>
+        <select id="cuisines-select" class="input-from-left in-shadow-hover shadow-hover" name="cuisines">
+            <option value="all">
+                All Cuisines
+            </option>
+        </select>
+        <button class="c-btn btn-default js-apply-filters" href="#" title="Apply changes">
+            Apply filters
+        </button>
+     </div>
+    </div>  <!-- END____________Modal -->
+    </main>
+      <!-- FOOTER____________Start -->
+    <footer id="footer">
+        Copyright (c) 2018
+        <a href="/" class="jsHomeLink" title="View Home page">
+            <strong>
+                Restaurant Reviews
+            </strong>
+        </a>
+        All Rights Reserved.
+    </footer>
+      <!-- FOOTER____________End -->
+    
+    <script charset="utf-8" src="assets/js/app.js" type="application/javascript">
+    </script>
+    <script charset="utf-8" src="assets/js/dbhelper.js" type="application/javascript">
+    </script>
+    <script charset="utf-8" src="assets/js/main.js" type="application/javascript">
+    </script>
+    <script charset="utf-8" src="assets/js/focus.handler.js" type="application/javascript">
+    </script>
+    <script charset="utf-8" src="assets/js/select.change.handler.js" type="application/javascript">
+    </script>
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+  <!-- Orginal-Key = AIzaSyAmA6iiuvnfgbbtILevinrtaxR8AnwDhhU -->
+</body>
+</html>
