@@ -1014,3 +1014,9 @@ text-align: center;
   }.restaurant-details-container .brn-from-left,.restaurant-details-container .brn-classic{
     padding: 5px;margin-bottom: 6px;
   }
+.card .update-indicator{
+	padding:12px;
+	position:fixed;
+	margin-left:auto;margin-right:auto;bottom:10px;
+	background:rgba(33,33,44,.7)
+}

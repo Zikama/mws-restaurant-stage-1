@@ -14,7 +14,7 @@
 // Names of the two caches used in this version of the service worker.
 // Change to CACHE_VERSION, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
-const CACHE_VERSION = 1,
+const CACHE_VERSION = 3,
       PRECACHE = `resto-rev-data-v${CACHE_VERSION}`,
       PRECACHE_IMG = `resto-rev-imgs-v${CACHE_VERSION}`,
       RUNTIME = `resto-rev-run-v${CACHE_VERSION}`,
@@ -91,7 +91,7 @@ self.addEventListener("fetch", event => {
   }
   if (requestUrl.startsWith(self.location.origin)) {
     event.respondWith(
-      caches.match(event.request).then(cachedResponse => {
+      caches.match(event.request).then(cachedResponse => { 
         if (cachedResponse) {
           return cachedResponse;
         }
@@ -121,7 +121,14 @@ self.addEventListener("fetch", event => {
           .catch(err => {
             console.log(`cache.match failed ${requestUrl}`, err);
           });
-      })
-    );
+     
+	  return response || fetch(event.request);  })
+   );
   }
+});
+
+self.addEventListener('message', (event) => {
+    if (event.data.action === 'skipWaiting') {
+        self.skipWaiting();
+    }
 });

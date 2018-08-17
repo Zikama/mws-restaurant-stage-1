@@ -213,4 +213,21 @@ class DBHelper {
     marker.addTo(newMap);
     return marker;
   }
+     showUpdateUI(message){
+        let htmlTemplate = '';
+
+        htmlTemplate += `
+                <div class="card update-indicator" style="width: 18rem;">
+                   <div class="card-body">
+                       <h5 class="card-title">${message}</h5>
+                       <button id="brn-refresh" class="brn-sm-radius">Refresh</button>
+                       <button id="brn-cancel" class="brn-sm-radius">Cancel</button>
+                   </div>
+               </div>
+            `;
+
+        const updateMessage = document.querySelector('#update-message');
+
+        updateMessage.innerHTML = htmlTemplate;
+    }
 }

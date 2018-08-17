@@ -18,10 +18,70 @@ function openDatabase() {
   });
 }
 function isBrowserCompatiblewithServiceWorkers() {
-  if (!navigator.serviceWorker) {
-    console.log("ServiceWorker is not compatible with this browser...");
-    return false;
-  }
+  //registering the service worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+
+        if(reg.waiting) {
+            updateReady(reg.waiting);
+            return;
+        }
+
+        if(reg.installing) {
+            console.log('Service worker installing')
+            reg.installing.addEventListener('statechange', () => {
+                if(this.state == 'installed'){
+                    updateReady(this);
+                    return;
+                }
+            });
+        }
+
+        reg.addEventListener('updatefound', () => {
+            reg.installing.addEventListener('statechange', function(){
+                if(this.state == 'installed'){
+                    updateReady(this);
+                    return;
+                }
+            });
+        })
+
+
+    }).catch((error) =>  {
+        // registration failed
+        console.log('Registration failed with ' + error);
+    });
+
+    // Ensure refresh is only called once.
+    // This works around a bug in "force update on reload".
+    var refreshing;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return;
+        window.location.reload();
+        refreshing = true;
+    });
+}
+
+function updateReady(worker){
+
+    DBHelper.showUpdateUI('New version available');
+
+    const updateMessage = document.querySelector('#update-message');
+
+    updateMessage.addEventListener('click', (e) => {
+        if(e.target && e.target.id== 'brn-refresh'){
+
+            worker.postMessage({action: 'skipWaiting'});
+
+
+        }else if(e.target && e.target.id== 'brn-cancel'){
+            setTimeout(() => {
+                document.querySelector('#update-message div').remove();
+            }, 1000);
+        }
+
+    })
+}
 
   return true;
 }
